@@ -238,7 +238,7 @@ class MiddlewareSettingsDialog:
         self.vario_unit = ttk.Combobox(
             self.conversions_frame,
             textvariable=self.vario_unit_var,
-            values=["mps", "fpm"],
+            values=["mps", "fpm", "knots"],
             width=15,
             state="readonly"
         )
@@ -271,7 +271,7 @@ class MiddlewareSettingsDialog:
 
 Altitude:  1 meter = 3.28084 feet
 Speed:     1 m/s = 3.6 km/h = 1.94384 knots  
-Vario:     1 m/s = 196.85 ft/min
+Vario:     1 m/s = 196.85 ft/min = 1.94384 knots
 Accel:     1 m/s² = 3.28084 ft/s²
 
 Note: Condor outputs data in metric units by default.

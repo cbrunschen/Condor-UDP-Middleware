@@ -257,7 +257,7 @@ class MiddlewareMainWindow:
         self.vario_combo = ttk.Combobox(
             self.units_frame,
             textvariable=self.vario_unit_var,
-            values=["mps", "fpm"],
+            values=["mps", "fpm", "knots"],
             width=8,
             state="readonly"
         )

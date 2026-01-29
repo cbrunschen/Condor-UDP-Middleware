@@ -347,7 +347,7 @@ class MiddlewareSettings:
         return {
             "altitude": ["meters", "feet"],
             "speed": ["mps", "kmh", "knots"],
-            "vario": ["mps", "fpm"],
+            "vario": ["mps", "fpm", "knots"],
             "acceleration": ["mps2", "fps2"]
         }
     
@@ -373,7 +373,11 @@ class MiddlewareSettings:
             },
             "vario": {
                 "mps_to_fpm": 196.85,
-                "fpm_to_mps": 0.00508
+                "fpm_to_mps": 0.00508,
+                "mps_to_knots": 1.94384,
+                "knots_to_mps": 0.514444,
+                "fpm_to_knots": 0.00987473,
+                "knots_to_fpm": 101.269
             },
             "acceleration": {
                 "mps2_to_fps2": 3.28084,

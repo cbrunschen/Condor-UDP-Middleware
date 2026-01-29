@@ -75,7 +75,11 @@ class UnitConverter:
             },
             "vario": {
                 "mps_to_fpm": 196.85,
-                "fpm_to_mps": 0.00508
+                "fpm_to_mps": 0.00508,
+                "mps_to_knots": 1.94384,
+                "knots_to_mps": 0.514444,
+                "fpm_to_knots": 0.00987473,
+                "knots_to_fpm": 101.269
             },
             "acceleration": {
                 "mps2_to_fps2": 3.28084,
@@ -288,6 +292,9 @@ class UnitConverter:
         elif target_unit == "fpm":
             factor = self.conversion_factors["vario"]["mps_to_fpm"]
             return value * factor, True
+        elif target_unit == "knots":
+            factor = self.conversion_factors["vario"]["mps_to_knots"]
+            return value * factor, True
         else:
             logger.warning(f"Unknown vario unit: {target_unit}")
             return value, False
@@ -373,19 +380,7 @@ class UnitConverter:
 if __name__ == "__main__":
     # Configure logging for testing
     logging.basicConfig(level=logging.DEBUG)
-    
-    # Test conversion settings
-    test_settings = {
-        "enabled": True,
-        "altitude": "feet",
-        "speed": "knots", 
-        "vario": "fpm",
-        "acceleration": "fps2"
-    }
-    
-    # Create converter
-    converter = UnitConverter(test_settings)
-    
+
     # Test message (sample from Condor)
     test_message = """time=17.0000042330833
 airspeed=30.5
@@ -398,30 +393,52 @@ ay=0.323577255010605
 az=-8.06892871856689
 height=10.5
 wheelheight=0.5"""
-    
+
     print("Original message:")
     print(test_message)
     print()
-    
-    # Process message
-    converted_message, info = converter.process_message(test_message)
-    
-    print("Converted message:")
-    print(converted_message)
-    print()
-    
-    print("Conversion info:")
-    for key, value in info.items():
-        print(f"  {key}: {value}")
-    print()
-    
-    # Show statistics
-    stats = converter.get_statistics()
-    print("Statistics:")
-    for key, value in stats.items():
-        print(f"  {key}: {value}")
-    print()
-    
-    # Test convertible variables detection
-    convertible = converter.get_convertible_variables(test_message)
-    print(f"Convertible variables found: {convertible}")
+
+    # Test conversion settings
+    test_settings_list = [
+        {
+            "enabled": True,
+            "altitude": "feet",
+            "speed": "knots",
+            "vario": "fpm",
+            "acceleration": "fps2"
+        },
+        {
+            "enabled": True,
+            "altitude": "feet",
+            "speed": "knots",
+            "vario": "knots",
+            "acceleration": "mps2"
+        },
+    ]
+
+    for test_settings in test_settings_list:
+        # Create converter
+        converter = UnitConverter(test_settings)
+
+        # Process message
+        converted_message, info = converter.process_message(test_message)
+
+        print("Converted message:")
+        print(converted_message)
+        print()
+
+        print("Conversion info:")
+        for key, value in info.items():
+            print(f"  {key}: {value}")
+        print()
+
+        # Show statistics
+        stats = converter.get_statistics()
+        print("Statistics:")
+        for key, value in stats.items():
+            print(f"  {key}: {value}")
+        print()
+
+        # Test convertible variables detection
+        convertible = converter.get_convertible_variables(test_message)
+        print(f"Convertible variables found: {convertible}")
